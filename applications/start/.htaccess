@@ -1,0 +1,14 @@
+RewriteEngine on
+
+# disable directory browsing
+Options All -Indexes
+
+<FilesMatch "\.(htaccess|htpasswd|ini|phps|fla|psd|log|sh)$">
+ Order Allow,Deny
+ Deny from all
+</FilesMatch>
+
+# turn off magic_quotes_gpc for PHP enabled servers
+<ifmodule mod_php4.c>
+ php_flag magic_quotes_gpc off
+</ifmodule>

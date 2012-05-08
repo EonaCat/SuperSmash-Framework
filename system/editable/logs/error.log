@@ -1,0 +1,117 @@
+| Logging started at: 2012-05-08 11:57:57
+| Error Level: Notice
+| Message: Undefined property: Login::$start
+| Reporting File: C:\xampp\htdocs\framework\applications\taskmanager\controllers\login.php
+| Error Line: 46
+| URL When Error Occured: http://127.0.0.1/framework/login/loadTasks
+
+--------------------------------------------------------------------
+
+| Logging started at: 2012-05-08 11:58:17
+| Error Level: Notice
+| Message: Undefined property: Login::$start
+| Reporting File: C:\xampp\htdocs\framework\applications\taskmanager\controllers\login.php
+| Error Line: 46
+| URL When Error Occured: http://127.0.0.1/framework/login/loadTasks
+
+--------------------------------------------------------------------
+
+| Logging started at: 2012-05-08 11:58:18
+| Error Level: Notice
+| Message: Undefined property: Login::$start
+| Reporting File: C:\xampp\htdocs\framework\applications\taskmanager\controllers\login.php
+| Error Line: 46
+| URL When Error Occured: http://127.0.0.1/framework/login/loadTasks
+
+--------------------------------------------------------------------
+
+| Logging started at: 2012-05-08 11:58:19
+| Error Level: Notice
+| Message: Undefined property: Login::$start
+| Reporting File: C:\xampp\htdocs\framework\applications\taskmanager\controllers\login.php
+| Error Line: 46
+| URL When Error Occured: http://127.0.0.1/framework/login/loadTasks
+
+--------------------------------------------------------------------
+
+| Logging started at: 2012-05-08 12:04:57
+| Error Level: Notice
+| Message: Undefined variable: loginMessage
+| Reporting File: C:\xampp\htdocs\framework\applications\taskmanager\views\login\index.php
+| Error Line: 17
+| URL When Error Occured: http://127.0.0.1/framework/login/check
+
+--------------------------------------------------------------------
+
+| Logging started at: 2012-05-08 12:10:23
+| Error Level: Error
+| Message: autoLoad
+| Reporting File: C:\xampp\htdocs\framework\system\SuperSmash\global.php
+| Error Line: 33
+| URL When Error Occured: http://127.0.0.1/framework/tasks
+
+--------------------------------------------------------------------
+
+| Logging started at: 2012-05-08 12:10:45
+| Error Level: Notice
+| Message: Undefined property: Tasks::$LoginModel
+| Reporting File: C:\xampp\htdocs\framework\applications\taskmanager\controllers\tasks.php
+| Error Line: 20
+| URL When Error Occured: http://127.0.0.1/framework/tasks
+
+--------------------------------------------------------------------
+
+| Logging started at: 2012-05-08 12:11:33
+| Error Level: Error
+| Message: view
+| Reporting File: C:\xampp\htdocs\framework\system\SuperSmash\loader.php
+| Error Line: 98
+| URL When Error Occured: http://127.0.0.1/framework/tasks
+
+--------------------------------------------------------------------
+
+| Logging started at: 2012-05-08 12:12:26
+| Error Level: Notice
+| Message: Undefined variable: loginMessage
+| Reporting File: C:\xampp\htdocs\framework\applications\taskmanager\views\tasks\index.php
+| Error Line: 17
+| URL When Error Occured: http://127.0.0.1/framework/tasks
+
+--------------------------------------------------------------------
+
+| Logging started at: 2012-05-08 12:19:59
+| Error Level: Notice
+| Message: Undefined variable: database
+| Reporting File: C:\xampp\htdocs\framework\applications\taskmanager\models\tasks.php
+| Error Line: 14
+| URL When Error Occured: http://127.0.0.1/framework/tasks
+
+--------------------------------------------------------------------
+
+| Logging started at: 2012-05-08 12:20:28
+| Error Level: Notice
+| Message: Undefined index: username
+| Reporting File: C:\xampp\htdocs\framework\applications\taskmanager\models\tasks.php
+| Error Line: 19
+| URL When Error Occured: http://127.0.0.1/framework/tasks
+
+--------------------------------------------------------------------
+
+| Logging started at: 2012-05-08 12:20:41
+| Error Level: Notice
+| Message: A session had already been started - ignoring session_start()
+| Reporting File: C:\xampp\htdocs\framework\applications\taskmanager\models\tasks.php
+| Error Line: 18
+| URL When Error Occured: http://127.0.0.1/framework/tasks
+
+--------------------------------------------------------------------
+
+| Logging started at: 2012-05-08 12:20:44
+| Error Level: Warning
+| Message: array_merge() [<a href='function.array-merge'>function.array-merge</a>]: Argument #2 is not an array
+| Reporting File: C:\xampp\htdocs\framework\applications\taskmanager\models\tasks.php
+| Error Line: 22
+| URL When Error Occured: http://127.0.0.1/framework/tasks
+
+--------------------------------------------------------------------
+
