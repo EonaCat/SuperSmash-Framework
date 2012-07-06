@@ -62,7 +62,7 @@ body
 }
 
 
-#login-box-name {
+#login-box-username {
 	float: left;
 	display:inline;
 	width:80px;
@@ -71,7 +71,7 @@ body
 	margin:0 0 7px 0;
 }
 
-#login-box-field {
+#login-box-usernamefield {
 	float: left;
 	display:inline;
 	width:230px;
@@ -79,6 +79,22 @@ body
 	margin:0 0 7px 0;
 }
 
+#login-box-password {
+	float: left;
+	display:inline;
+	width:80px;
+	text-align: right;
+	padding: 14px 10px 0 0;
+	margin:0 0 7px 0;
+}
+
+#login-box-passwordfield {
+	float: left;
+	display:inline;
+	width:230px;
+	margin:0;
+	margin:0 0 7px 0;
+}
 
 .form-login  {
 	width: 205px;

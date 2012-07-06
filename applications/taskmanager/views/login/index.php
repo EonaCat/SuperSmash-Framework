@@ -12,27 +12,28 @@
     </div>
     <div id="container">
         <div id="content">
-            <form action="<?php echo "$websiteURL/login/check"; ?>" method="post" />
+            <form action="<?php echo "$websiteURL/login/check"; ?>" method="post">
                 <div id="login-box">
                     <?php echo $loginMessage; ?>
                     <br />
                     <?php if(isset($errorMessage)) echo "<font color=\"red\">" . $errorMessage . "</font><br />"; ?>
-                    <div id="login-box-name" style="margin-top:20px;">Username:</div>
-                        <div id="login-box-field" style="margin-top:20px;">
+                    <div id="login-box-username" style="margin-top:20px;">Username:</div>
+                        <div id="login-box-usernamefield" style="margin-top:20px;">
                             <input name="username" class="form-login" title="Username" value="" size="30" maxlength="50" />
                         </div>
 
-                    <div id="login-box-name">Password:</div>
+                    <div id="login-box-password">Password:</div>
 
-                    <div id="login-box-field">
+                    <div id="login-box-passwordfield">
                         <input name="password" type="password" class="form-login" title="Password" value="" size="30" maxlength="50" />
                     </div>
 
                     <br />  
                     <span class="login-box-options"><input type="checkbox" name="1" value="1"> Remember Me <a href="forget.php" style="margin-left:30px;">Forgot password?</a>
-                     <br />
-                    <br />
-                    <button class="loginButton" type="submit" />&nbsp</button>
+                        <br />
+                        <br />
+                    </span>
+                    <button class="loginButton" type="submit">&nbsp;</button>
                 </div>     
             </form>     
         </div>

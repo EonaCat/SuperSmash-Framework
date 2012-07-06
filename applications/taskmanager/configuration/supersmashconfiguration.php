@@ -9,7 +9,7 @@
 	$development = false;
 	$logErrors = true;
 	$urlParameters = false;	
-	$sessionDatabase = true;
+	$sessionDatabase = false;
 
 	$libraries = array();
 	$helpers = array();	
