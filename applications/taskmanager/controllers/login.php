@@ -15,7 +15,7 @@ class Login extends System\SuperSmash\Controller {
         $this->load->model('login');
 
         // Load the data for the login model
-        $data = $this->LoginModel->data($error);
+        $data = $this->LoginModel->login($error);
         
         // Load the view and add the data
         $this->load->view('login', $data);
@@ -26,7 +26,7 @@ class Login extends System\SuperSmash\Controller {
         $this->load->model('login');
                 
         if ($this->LoginModel->check()){
-            header('Location: ../tasks');
+            die("ingelogd");
         } else {
             $this->start(true);
         }

@@ -6,8 +6,9 @@ body
 	font-family: "SuperSmash";
     src: url(./font/SuperSmash.ttf)
 }
+
 #error-box
- {
+{
 	width: 800px;
 	background-color: #f8f8f8;
 	margin-left: auto;
@@ -16,25 +17,42 @@ body
 	border-radius: 6px;
 	box-shadow: 0 0 5px 5px #888;
 }
-div.error-header {
+
+div.error-copyright
+{
+	text-align: center;
+}
+
+div.error-header 
+{
 	margin: 10px;
 	font-weight: bold;
 	font-size: 24px;
 	color: #CC0000;
 	border-bottom: 1px solid #666666;
 }
-div.error-message {
+
+div.error-message 
+{
 	margin:10px;
 	font-size: 16px;
 }
 
-img.error {
+div.debug-error-message 
+{
+	margin:10px;
+	font-size: 16px;	
+}
+
+img.error 
+{
 	display: block;
     margin-left: auto;
     margin-right: auto;
 }
 
-div.header {
+div.header
+{
 	margin: 10px;
 	font-weight: bold;
 	font-size: 24px;
@@ -43,14 +61,16 @@ div.header {
 	padding-bottom: 5px;
 	border-bottom: 1px solid #666666;
 }
-div.links {
+div.links 
+{
 	border-top: 1px solid #666666;
 	padding-top: 3px;
 	margin:10px;
 	text-align: center;
 	font-size: 12px;
 }
-div.message {
+div.message 
+{
 	margin:10px;
 	text-align: center;
 	font-size: 14px;
@@ -84,18 +104,23 @@ pre
 	overflow:auto;
 }
 
-* {
+* 
+{
 	margin: 0;
 }
-html, body {
+
+html, body 
+{
 	height: 100%;
 }
-.wrapper {
+.wrapper 
+{
 	min-height: 100%;
 	height: auto !important;
 	height: 100%;
 	margin: 0 auto -142px; /* the bottom margin is the negative value of the footer's height */
 }
-.SuperSmashFramework, .bottom {
+.SuperSmashFramework, .bottom
+{
 	height: 142px; /* .bottom must be the same height as .footer */
 }

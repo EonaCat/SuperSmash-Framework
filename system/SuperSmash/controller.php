@@ -6,11 +6,12 @@
 /****     Started on: 25-04-2012   ****/
 /**************************************/
 
-namespace System\SuperSmash;
+namespace system\SuperSmash;
 
 if (!defined("SUPERSMASH_FRAMEWORK")){die("You cannot access this page directly!");}
 
-class Controller {
+class Controller 
+{
     // This variable will hold the controllerName
     public $controller;
 
@@ -27,7 +28,8 @@ class Controller {
     private static $instance;
 
     // Create the constructor
-    public function __construct() {		
+    public function __construct() 
+    {		
         // Set the instance of the controller
         self::$instance = $this;
     
@@ -41,33 +43,40 @@ class Controller {
         
         // Initiate the autoloader Helpers
         $helpers = configuration('helpers', 'SuperSmash');
-        if(count($helpers) > 0) {
-            foreach($helpers as $helper) {
+        if(count($helpers) > 0) 
+        {
+            foreach($helpers as $helper) 
+            {
                 $this->load->helpers($helper);
             }
         }
         
         // Intiate the autoloader Libraries
         $libraries = configuration('libraries', 'SuperSmash');
-        if(count($libraries) > 0) {
-            foreach($libraries as $library) {
+        if(count($libraries) > 0) 
+        {
+            foreach($libraries as $library) 
+            {
                 $this->load->libraries($library);
             }
         }
     }
 
     // This function will get the controller instance
-    public static function getInstance() {
+    public static function getInstance() 
+    {
         return self::$instance;
     }
 
     // This function will be called before an action is taken
-    public function _beforeAction() {
+    public function _beforeAction()
+    {
         // We can write some custom code here that will be taken before an action is made
     }
     
     // This function will be called after an action is taken
-    public function _afterAction() {
+    public function _afterAction() 
+    {
         // We can write some custom code here that will be taken after an action is made
     }
 

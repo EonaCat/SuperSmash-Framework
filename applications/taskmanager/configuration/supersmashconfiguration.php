@@ -6,7 +6,7 @@
 	$controllerParameter = 'c';
 	$actionParameter = 'a';
 	
-	$development = true;
+	$development = false;
 	$logErrors = true;
 	$urlParameters = false;	
 	$sessionDatabase = true;

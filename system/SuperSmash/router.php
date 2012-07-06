@@ -6,11 +6,12 @@
 /****     Started on: 25-04-2012   ****/
 /**************************************/
 
-namespace System\SuperSmash;
+namespace system\SuperSmash;
 
 if (!defined("SUPERSMASH_FRAMEWORK")){die("You cannot access this page directly!");}
 
-class Router {
+class Router 
+{
     // http protocol (https or http)
     protected $protocol;
 
@@ -36,7 +37,8 @@ class Router {
     protected $queryString;
  
     // Create the contructor
-    public function __construct() {
+    public function __construct() 
+    {
         // Load the input class
         
         $this->input = loadClass('Input');
@@ -46,19 +48,26 @@ class Router {
     }
 
     // This function will check how the url should be loaded
-    protected function checkRoutingUrl() {
+    protected function checkRoutingUrl()
+    {
         // Determine our http hostname, and site directory
         $this->hostName = rtrim($_SERVER['HTTP_HOST'], '/');
         $this->websiteDir = dirname( $_SERVER['PHP_SELF'] );
 
         // Detect our protocol
-        if(isset($_SERVER['HTTPS'])) {
-            if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+        if(isset($_SERVER['HTTPS'])) 
+        {
+            if(!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') 
+            {
                 $this->protocol = 'https';
-            } else {
+            } 
+            else 
+            {
                 $this->protocol = 'http';
             }
-        } else {
+        }
+        else
+        {
             $this->protocol = 'http';
         }
         
@@ -68,10 +77,13 @@ class Router {
         $this->websiteURL = $this->protocol .'://' . rtrim($websiteURL, '/');
 
         // Process the site URI
-        if (!configuration('urlParameters', 'SuperSmash')) {
+        if (!configuration('urlParameters', 'SuperSmash')) 
+        {
             // Get our current url, which is passed on by the 'url' param
             $this->uri = (isset($_GET['url']) ? $this->input->get('url', true) : '');  
-        } else {
+        }
+        else 
+        {
             // Define our needed vars
             $controllerParameter =  configuration('controllerParameter', 'SuperSmash');
             $actionParameter = configuration('actionParameter', 'SuperSmash');
@@ -79,9 +91,12 @@ class Router {
             // Make sure we have a controller at least
             $controller = $this->input->get($controllerParameter, true);
 
-            if (!$controller) {
+            if (!$controller)
+            {
                 $this->uri = '';
-            } else {
+            } 
+            else 
+            {
                 // Get our action
                 $action = $this->input->get($actionParameter, true);
                 if(!$action) $action = configuration('defaultAction', 'SuperSmash'); // Default Action
@@ -92,12 +107,14 @@ class Router {
                 // Clean the query string
                 $queryString = $this->input->clean($_SERVER['QUERY_STRING']);
                 $queryString = explode('&', $queryString);
-                foreach($queryString as $string) {
+                foreach($queryString as $string)
+                {
                     // Convert this segment to an array
                     $string = explode('=', $string);
                     
                     // Dont add the controller / action twice ;)
-                    if($string[0] == $controllerParameter || $string[0] == $actionParameter) {
+                    if($string[0] == $controllerParameter || $string[0] == $actionParameter)
+                    {
                        continue;   
                     }
                     
@@ -108,14 +125,16 @@ class Router {
         }
 
         // If the URI is empty, then load defaults
-        if (empty($this->uri)) {
+        if (empty($this->uri)) 
+        {
             // Set our Controller / Action to the defaults
             $controller = configuration('defaultController', 'SuperSmash'); // Default Controller
             $action = configuration('defaultAction', 'SuperSmash'); // Default Action
             $queryString = array(); // Default query string
         }  
         // There is a URI, Lets load our controller and action
-        else {
+        else 
+        {
             // Remove any left slashes or double slashes
             $this->uri = ltrim( str_replace('//', '/', $this->uri), '/');
 
@@ -126,13 +145,15 @@ class Router {
 
             // If there is an action, then lets set that in a variable
             array_shift($urlArray);
-            if(isset($urlArray[0]) && !empty($urlArray[0])) {
+            if(isset($urlArray[0]) && !empty($urlArray[0])) 
+            {
                 $action = $urlArray[0];
                 array_shift($urlArray);
             }
             
             // If there is no action, load the default action.
-            else {
+            else 
+            {
                 $action = configuration('defaultAction', 'SuperSmash'); // Default Action
             }
             
@@ -141,7 +162,8 @@ class Router {
         }
         
         // Make sure the first character of the controller is not an _ !
-        if( strncmp($controller, '_', 1) == 0 || strncmp($action, '_', 1) == 0 ) {
+        if( strncmp($controller, '_', 1) == 0 || strncmp($action, '_', 1) == 0 )
+        {
             show_404();
         }
         
@@ -152,7 +174,8 @@ class Router {
     }
 
     // This function returns all the url information
-    public function getUrlInformation() {
+    public function getUrlInformation()
+    {
         $array = array(
             'protocol' => $this->protocol,
             'hostName' => $this->hostName,
@@ -169,7 +192,8 @@ class Router {
     // This function returns the specified URI segment    
     public function getUriSegment($index) {
         // Return the URI
-        if(isset($this->uri[$index])) {
+        if(isset($this->uri[$index]))
+        {
             return $this->uri[$index];
         }
         return false;

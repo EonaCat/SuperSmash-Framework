@@ -9,7 +9,9 @@
 // Please do not edit anything else then this file contents.
 // Editing anything else can and may cause harm to the SuperSmash framework !!!
 
-
+// Uncomment these two lines to display errors
+// error_reporting(E_ALL);
+// ini_set("display_errors", 1);
 
 /*************************************************/
 /* Set this variable to true if you want to have */

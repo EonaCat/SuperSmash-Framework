@@ -94,7 +94,8 @@
   * $database->close();
  */
 
-class Database{
+class Database
+{
 
     // Create an array with all the database types this class can connect to
     private $database_types = array("databaselibrary",        // Database Library (used by PHP)
@@ -153,7 +154,8 @@ class Database{
     */
     
     // Create the constructor and initialise the connection to the specified server
-    public function __construct($database_type,$server,$database,$user,$password,$port){
+    public function __construct($database_type,$server,$database,$user,$password,$port)
+    {
         $this->database_type = strtolower($database_type);
         $this->server = $server;
         $this->database = $database;
@@ -163,10 +165,13 @@ class Database{
     }
     
     // initialise class and connects to the database
-    public function open(){
-        if(in_array($this->database_type, $this->database_types)){   
+    public function open()
+    {
+        if(in_array($this->database_type, $this->database_types))
+        {   
             try {
-                switch ($this->database_type){
+                switch ($this->database_type)
+                {
 
                     // Database Library connection
 
@@ -244,12 +249,15 @@ class Database{
                     
                     case "postgre":
                         
-                        if($this->port!=""){
+                        if($this->port!="")
+                        {
                             $this->con = new PDO("pgsql:dbname=".$this->database.";
                                                  port=".$this->port.";
                                                  host=".$this->server, $this->user, $this->password
                                                 );
-                        }else{
+                        }
+                        else
+                        {
                             $this->con = new PDO("pgsql:dbname=".$this->database.";
                                                  host=".$this->server, $this->user, $this->password
                                                 );
@@ -276,19 +284,25 @@ class Database{
                                             );
             }
                 
-                    if ($this->debug){
-                            $this->showDebugInformation();
-                        } else {
+                    if ($this->debug)
+                    {
+                       $this->showDebugInformation();
+                    } 
+                        else 
+                        {
                                     // Create the exception that will be thrown by the PDO if there is an error
                                     $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  
                         }
                 return $this->con;
-            }catch(PDOException $e) {
+            }
+            catch(PDOException $e)
+            {
                 $this->log ("Error: ". $e->getMessage());
                 return false;
             }
         }
-        else{
+        else
+        {
             $this->log("The parameters that are given are invalid. <br />
                         Possible reasons: <br /><br />
                         1. The parameters that are given are invalid for the class. <br />
@@ -299,7 +313,8 @@ class Database{
         }
     }
     
-            private function log($message){
+            private function log($message)
+            {
                 $this->err_msg = "SuperSmash Database Connection class:<br />
                                   =====================================<br /><br />
                                   $message";
@@ -331,43 +346,56 @@ class Database{
             }
 
     // Print all the available drivers to the screen (for instant debugging off supported drivers)
-    public function drivers(){
+    public function drivers()
+    {
         print_r(PDO::getAvailableDrivers()); 
     }
 
     //Execute the query to the database
-    public function query($sql_statement){
+    public function query($sql_statement)
+    {
         $this->err_msg = "";
-        if($this->con!=null){
-            try {
+        if($this->con!=null)
+        {
+            try 
+            {
                 $this->sql=$sql_statement;
                 return $this->con->query($this->sql);
-            } catch(PDOException $e) {
+            } 
+            catch(PDOException $e) 
+            {
                 $this->log("Error: ". $e->getMessage());
                 return false;
             }
         }
-        else{
+        else
+        {
             $this->log("Error: Connection to database lost.");
             return false;
         }
     }
     
     //Execute queries with Anti SQL injection
-    public function query_secure($sql_statement, $params, $fetch_rows=false){
+    public function query_secure($sql_statement, $params, $fetch_rows=false)
+    {
         $this->err_msg = "";
-        if($this->con!=null){
+        if($this->con!=null)
+        {
             $obj = $this->con->prepare($sql_statement);
-            for($i=0;$i<count($params);$i++){
+            for($i=0;$i<count($params);$i++)
+            {
                 $params_split = explode("@",$params[$i]);
                 if($params_split[2]=="INT")
                     $obj->bindParam($params_split[0], $params_split[1], PDO::PARAM_INT);
                 else
                     $obj->bindParam($params_split[0], $params_split[1], PDO::PARAM_STR);
             }
-            try {
+            try 
+            {
                 $obj->execute();
-            }catch(PDOException $e){
+            }
+            catch(PDOException $e)
+            {
                 $this->log("Error: ". $e->getMessage());
                 return false;
             }
@@ -377,92 +405,120 @@ class Database{
                 return $this->con->lastInsertId();
             return true;
         }
-        else{
+        else
+        {
             $this->log("Error: Connection to database lost.");
             return false;
         }
     }
     
     // Get the first row of a query in the database
-    public function query_first($sql_statement){
+    public function query_first($sql_statement)
+    {
         $this->err_msg = "";
-        if($this->con!=null){
-            try {
+        if($this->con!=null)
+        {
+            try 
+            {
                 $sttmnt = $this->con->prepare($sql_statement);
                 $sttmnt->execute();
                 return $sttmnt->fetch();
-            } catch(PDOException $e) {
+            } 
+            catch(PDOException $e) 
+            {
                 $this->log("Error: ". $e->getMessage());
                 return false;
             }
         }
-        else{
+        else
+        {
             $this->log("Error: Connection to database lost.");
             return false;
         }
     }
     
     // Get the first tableCell from a query in the database
-    public function query_single($sql_statement){
+    public function query_single($sql_statement)
+    {
         $this->err_msg = "";
-        if($this->con!=null){
-            try {
+        if($this->con!=null)
+        {
+            try 
+            {
                 $sttmnt = $this->con->prepare($sql_statement);
                 $sttmnt->execute();
                 return $sttmnt->fetchColumn();
-            } catch(PDOException $e) {
+            } 
+            catch(PDOException $e)
+            {
                 $this->log("Error: ". $e->getMessage());
                 return false;
             }
         }
-        else{
+        else
+        {
             $this->log("Error: Connection to database lost.");
             return false;
         }
     }
     
     // Return the rowcount of a query in the database
-    public function rowcount(){
+    public function rowcount()
+    {
         $this->err_msg = "";
-        if($this->con!=null){
-            try {
+        if($this->con!=null)
+        {
+            try 
+            {
                 $stmnt_tmp = $this->stmntCount($this->sql);
-                if($stmnt_tmp!=false && $stmnt_tmp!=""){
+                if($stmnt_tmp!=false && $stmnt_tmp!="")
+                {
                     return $this->query_single($stmnt_tmp);
                 }
-                else{
+                else
+                {
                     $this->log("Error: A few data required.");
                     return -1;
                 }
-            } catch(PDOException $e) {
+            } 
+            catch(PDOException $e)
+            {
                 $this->log("Error: ". $e->getMessage());
                 return -1;
             }
         }
-        else{
+        else
+        {
             $this->log("Error: Connection to database lost.");
             return false;
         }
     }
     
     // Return all the colum names in the database (as an array)
-    public function columns($table){
+    public function columns($table)
+    {
         $this->err_msg = "";
         $this->sql="Select * From $table";
-        if($this->con!=null){
-            try {
+        if($this->con!=null)
+        {
+            try 
+            {
                 $q = $this->con->query($this->sql);
                 $column = array();
-                foreach($q->fetch(PDO::FETCH_ASSOC) as $key=>$val){
+                foreach($q->fetch(PDO::FETCH_ASSOC) as $key=>$val)
+                {
                      $column[] = $key;
                 }
                 return $column;
-            } catch(PDOException $e) {
+            } 
+            catch(PDOException $e)
+            {
                 $this->log("Error: ". $e->getMessage());
                 return false;
             }
         }
-        else{
+        else
+        {
             $this->log("Error: Connection to database lost.");
             return false;
         }
@@ -471,226 +527,305 @@ class Database{
     // Insert the query and get the new ID from the database
     public function insert($table, $data){
         $this->err_msg = "";
-        if($this->con!=null){
-            try {
+        if($this->con!=null)
+        {
+            try 
+            {
                 $texto = "Insert Into $table (";
                 $texto_extra = ") Values (";
                 $texto_close = ")";
                 $data_column = explode(",", $data);
-                for($x=0;$x<count($data_column);$x++){
+                for($x=0;$x<count($data_column);$x++)
+                {
                     $data_content = explode("=", $data_column[$x]); //0=Field, 1=Value
-                    if($x==0){ $texto.= $data_content[0]; }
-                    else{ $texto.= "," . $data_content[0]; }
-                    if($x==0){ $texto_extra.= $data_content[1]; }
-                    else{ $texto_extra.= "," . $data_content[1]; }                  
+                    if($x==0)
+                      { 
+                        $texto.= $data_content[0]; 
+                      }
+                    else
+                    { 
+                      $texto.= "," . $data_content[0]; }
+                    if($x==0)
+                      { 
+                        $texto_extra.= $data_content[1]; 
+                      }
+                      else
+                        {
+                         $texto_extra.= "," . $data_content[1]; 
+                        }                  
                 }
                 $this->con->exec("$texto $texto_extra $texto_close");
                 return $this->con->lastInsertId();
-            } catch(PDOException $e) {
+            } 
+            catch(PDOException $e) 
+            {
                 $this->log("Error: ". $e->getMessage());
                 return false;
             }
         }
-        else{
+        else
+        {
             $this->log("Error: Connection to database lost.");
             return false;
         }
     }
     
     // Update the tables in the database
-    public function update($table, $data, $condition=""){
+    public function update($table, $data, $condition="")
+    {
         $this->err_msg = "";
-        if($this->con!=null){
-            try {
+        if($this->con!=null)
+        {
+            try 
+            {
                 return (trim($condition)!="") ? $this->con->exec("update $table set $data where $condition") : $this->con->exec("update $table set $data");
-            } catch(PDOException $e) {
+            }
+             catch(PDOException $e) 
+             {
                 $this->err_msg = "Error: ". $e->getMessage();
                 return false;
             }
         }
-        else{
+        else
+        {
             $this->log("Error: Connection to database lost.");
             return false;
         }
     }
     
     // Delete a record from the database
-    public function delete($table, $condition=""){
+    public function delete($table, $condition="")
+    {
         $this->err_msg = "";
-        if($this->con!=null){
-            try {
+        if($this->con!=null)
+        {
+            try
+            {
                 return (trim($condition)!="") ? $this->con->exec("delete from $table where $condition") : $this->con->exec("delete from $table");
-            } catch(PDOException $e){
+            } 
+            catch(PDOException $e)
+            {
                 $this->log("Error: ". $e->getMessage());
                 return false;
             }
         }
-        else{
+        else
+        {
             $this->log("Error: Connection to database lost.");
             return false;
         }
     }
     
     //Execute Store Procedures
-    public function execute($sp_query){
+    public function execute($sp_query)
+    {
         $this->err_msg = "";
-        if($this->con!=null){
-            try {
+        if($this->con!=null)
+        {
+            try 
+            {
                 $this->con->exec("$sp_query");
                 return true;
-            } catch(PDOException $e) {
+            } 
+            catch(PDOException $e)
+            {
                 $this->log("Error: ". $e->getMessage());
                 return false;
             }
         }
-        else{
+        else
+        {
             $this->log("Error: Connection to database lost.");
             return false;
         }
     }
     
     // Get the latest ID from the specified table in the database
-    public function getLatestId($db_table, $table_field){
+    public function getLatestId($db_table, $table_field)
+    {
         $this->err_msg = "";
         $sql_statement = "";
         $dbtype = $this->database_type;
         
-        if($dbtype=="sql" || $dbtype=="mssql" || $dbtype=="ibm" || $dbtype=="databaselibrary" || $dbtype=="odbc"){
+        if($dbtype=="sql" || $dbtype=="mssql" || $dbtype=="ibm" || $dbtype=="databaselibrary" || $dbtype=="odbc")
+        {
             $sql_statement = "select top 1 $table_field from $db_table order by $table_field desc";
         }
-        if($dbtype=="oracle"){
+        if($dbtype=="oracle")
+        {
             $sql_statement = "select $table_field from $db_table where ROWNUM<=1 order by $table_field desc";
         }
-        if($dbtype=="informix" || $dbtype=="firebird"){
+        if($dbtype=="informix" || $dbtype=="firebird")
+        {
             $sql_statement = "select first 1 $table_field from $db_table order by $table_field desc";
         }
-        if($dbtype=="mysql" || $dbtype=="sqlite2" || $dbtype=="sqlite3"){
+        if($dbtype=="mysql" || $dbtype=="sqlite2" || $dbtype=="sqlite3")
+        {
             $sql_statement = "select $table_field from $db_table order by $table_field desc limit 1";
         }
-        if($dbtype=="postgre"){
+        if($dbtype=="postgre")
+        {
             $sql_statement = "select $table_field from $db_table order by $table_field desc limit 1 offset 0";
         }
         
-        if($this->con!=null){
-            try {
+        if($this->con!=null)
+        {
+            try 
+            {
                 return $this->query_single($sql_statement);
-            } catch(PDOException $e) {
+            } 
+            catch(PDOException $e) 
+            {
                 $this->log("Error: ". $e->getMessage());
                 return false;
             }
         }
-        else{
+        else
+        {
             $this->log("Error: Connection to database lost.");
             return false;
         }
     }
     
     //Get all the tables from a specified database
-    public function ShowTables($database){
+    public function ShowTables($database)
+    {
         $this->err_msg = "";
         $complete = "";     
         $sql_statement = "";        
         $dbtype = $this->database_type;
         
-        if($dbtype=="sql" || $dbtype=="mssql" || $dbtype=="ibm" || $dbtype=="databaselibrary" || $dbtype=="odbc" || $dbtype=="sqlite2" || $dbtype=="sqlite3"){
+        if($dbtype=="sql" || $dbtype=="mssql" || $dbtype=="ibm" || $dbtype=="databaselibrary" || $dbtype=="odbc" || $dbtype=="sqlite2" || $dbtype=="sqlite3")
+        {
             $sql_statement = "select name from sysobjects where xtype='U'";
         }
-        if($dbtype=="oracle"){
+        if($dbtype=="oracle")
+        {
             //If the query statement fail, try with uncomment the next line:
             //$sql_statement = "SELECT table_name FROM tabs";
             $sql_statement = "SELECT table_name FROM cat";
         }
-        if($dbtype=="informix" || $dbtype=="firebird"){
+        if($dbtype=="informix" || $dbtype=="firebird")
+        {
             $sql_statement = "SELECT RDB$RELATION_NAME FROM RDB$RELATIONS WHERE RDB$SYSTEM_FLAG = 0 AND RDB$VIEW_BLR IS NULL ORDER BY RDB$RELATION_NAME";
         }
-        if($dbtype=="mysql"){
-            if($database!=""){ $complete = " from $database"; }
+        if($dbtype=="mysql")
+        {
+            if($database!="")
+              { 
+                $complete = " from $database"; 
+              }
             $sql_statement = "show tables $complete";
         }
-        if($dbtype=="postgre"){
+        if($dbtype=="postgre")
+        {
             $sql_statement = "select relname as name from pg_stat_user_tables order by relname";
         }
         
-        if($this->con!=null){
-            try {
+        if($this->con!=null)
+        {
+            try 
+            {
                 $this->sql=$sql_statement;
                 return $this->con->query($this->sql);           
-            } catch(PDOException $e) {
+            } 
+            catch(PDOException $e) 
+            {
                 $this->log("Error: ". $e->getMessage());
                 return false;
             }
         }
-        else{
+        else
+        {
             $this->log("Error: Connection to database lost.");
             return false;
         }
     }
     
     //Get all databases that exists on the server (and where you got permission to use them)
-    public function showDatabases(){
+    public function showDatabases()
+    {
         $this->err_msg = "";
         $sql_statement = "";        
         $dbtype = $this->database_type;
         
-        if($dbtype=="sql" || $dbtype=="mssql" || $dbtype=="ibm" || $dbtype=="databaselibrary" || $dbtype=="odbc" || $dbtype=="sqlite2" || $dbtype=="sqlite3"){
+        if($dbtype=="sql" || $dbtype=="mssql" || $dbtype=="ibm" || $dbtype=="databaselibrary" || $dbtype=="odbc" || $dbtype=="sqlite2" || $dbtype=="sqlite3")
+        {
             $sql_statement = "SELECT name FROM sys.Databases";
         }
-        if($dbtype=="oracle"){
+        if($dbtype=="oracle")
+        {
             //If the query statement fail, try with uncomment the next line:
             //$sql_statement = "select * from user_tablespaces";
             $sql_statement = "select * from v$database";
         }
-        if($dbtype=="informix" || $dbtype=="firebird"){
+        if($dbtype=="informix" || $dbtype=="firebird")
+        {
             $sql_statement = "";
         }
-        if($dbtype=="mysql"){
+        if($dbtype=="mysql")
+        {
             $sql_statement = "SHOW DATABASES";
         }
-        if($dbtype=="postgre"){
+        if($dbtype=="postgre")
+        {
             $sql_statement = "select datname as name from pg_database";
         }
         
-        if($this->con!=null){
-            try {
+        if($this->con!=null)
+        {
+            try 
+            {
                 $this->sql=$sql_statement;
                 return $this->con->query($this->sql);           
-            } catch(PDOException $e) {
+            }
+             catch(PDOException $e) 
+             {
                 $this->log("Error: ". $e->getMessage());
                 return false;
             }
         }
-        else{
+        else
+        {
             $this->log("Error: Connection to database lost.");
             return false;
         }   
     }
     
     //Get the latest error ocurred in the connection
-    public function getError(){
+    public function getError()
+    {
         return trim($this->err_msg)!="" ? "<span style='color:#FF0000;background:#FFEDED;font-weight:bold;border:2px solid #FF0000;padding:2px 4px 2px 4px;'>".$this->err_msg."</span><br />" : "";
     }
     
     //Disconnect from database
-    public function close(){
+    public function close()
+    {
         $this->err_msg = "";
-        if($this->con){
+        if($this->con)
+        {
             $this->con = null;
             return true;
-        }else{
+        }
+        else
+        {
             $this->log("Error: Connection to database lost.");
             return false;
         }
     }
     
     //Build the query neccesary for the count(*) in rowcount method
-    private function stmntCount($query_stmnt){
-        if(trim($query_stmnt)!=""){
+    private function stmntCount($query_stmnt)
+    {
+        if(trim($query_stmnt)!="")
+        {
             $query_stmnt = trim($query_stmnt);
             $query_split = explode(" ",$query_stmnt);
             $query_flag = false;
             $query_final = "";      
 
-            for($x=0;$x<count($query_split);$x++){
+            for($x=0;$x<count($query_split);$x++)
+            {
                 //Checking "SELECT"
                 if($x==0 && strtoupper(trim($query_split[$x]))=="SELECT")
                     $query_final = "SELECT count(*) ";
@@ -698,7 +833,8 @@ class Database{
                     return false;
 
                 //Checking "FROM"
-                if(strtoupper(trim($query_split[$x]))=="FROM"){
+                if(strtoupper(trim($query_split[$x]))=="FROM")
+                {
                     $query_final .= "FROM ";
                     $query_flag = true;
                     continue;

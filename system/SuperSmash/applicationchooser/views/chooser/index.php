@@ -14,6 +14,13 @@
             <?php 
                 foreach ($applications as &$application){
                     $application = str_replace(" ", "&nbsp", $application);
+                    
+                    // Check if there is an application in the denyList
+                    if (strlen(strstr($denyList,$application))>0)
+                    {
+                        continue;
+                    }
+
                     echo "  <form action=\"$websiteURL/index.php\" method=\"POST\">";
                             if (file_exists(ROOT . "/applications/$application/portal.png")){
                                 echo "<button class=\"button\" name=\"changepage\" type=\"submit\" style=\"background-color:transparent; background-image:url($websiteURL/applications/" . "$application" . "/portal.png)\" value=\"$application\" title=\"$application\"></button>";

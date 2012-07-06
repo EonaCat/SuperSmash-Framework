@@ -29,7 +29,7 @@ $config['check_user_agent']         = $_SERVER['HTTP_USER_AGENT'];    // Will ch
 */
 
 
-namespace System\SuperSmash;
+namespace system\SuperSmash;
 use settings\settings;
 
 if (!defined("SUPERSMASH_FRAMEWORK")){die("You cannot access this page directly!");}
@@ -128,9 +128,12 @@ class Session
         $this->_setConfig($config);
 
         // Runs the session mechanism
-        if ($this->_read()) {
+        if ($this->_read()) 
+        {
             $this->_update();
-        } else {
+        } 
+        else 
+        {
             $this->_create();
         }
 
@@ -218,7 +221,7 @@ class Session
         }
 
         // Destroy the cookie
-        \System\SuperSmash\Cookie::set($this->_cookie_name, '', false, time() - 31500000, NULL,NULL,NULL,NULL);
+        \system\SuperSmash\Cookie::set($this->_cookie_name, '', false, time() - 31500000, NULL,NULL,NULL,NULL);
 
     }
 
@@ -234,7 +237,7 @@ class Session
     private function _read()
     {
         // Fetches session cookie
-        $session_id = \System\SuperSmash\Cookie::exists($this->_cookie_name) ? \System\SuperSmash\Cookie::get($this->_cookie_name) : FALSE;
+        $session_id = \system\SuperSmash\Cookie::exists($this->_cookie_name) ? \system\SuperSmash\Cookie::get($this->_cookie_name) : FALSE;
 
         // Cookie doesn't exist!
         if (! $session_id) {
@@ -291,7 +294,8 @@ class Session
             // Sets user data
             $user_data = unserialize($result['data']);
 
-            if ($user_data) {
+            if ($user_data)
+            {
                 $this->_data = $user_data;
                 unset($user_data);
             }
@@ -338,9 +342,12 @@ class Session
     private function _write()
     {
         // Custom data doesn't exist
-        if (count($this->_data) == 0) {
+        if (count($this->_data) == 0)
+        {
             $custom_data = '';
-        } else {
+        } 
+        else 
+        {
             $custom_data = serialize($this->_data);
         }
 
@@ -356,7 +363,7 @@ class Session
      * */
     private function _setCookie()
     {
-        \System\SuperSmash\Cookie::set($this->_cookie_name, $this->_session_id, false, ($this->_expire_on_close) ? 0 : time() + $this->_seconds_till_expiration,NULL,NULL,$this->_secure_cookie,TRUE);
+        \system\SuperSmash\Cookie::set($this->_cookie_name, $this->_session_id, false, ($this->_expire_on_close) ? 0 : time() + $this->_seconds_till_expiration,NULL,NULL,$this->_secure_cookie,TRUE);
     }
 
     /**
@@ -463,10 +470,14 @@ class Session
     private function _setConfig(array $config)
     {
         // Sets database handle
-        if (isset($config['database'])) {
+
+        if (isset($config['database']) && $config['database']) 
+        {
             $this->_db = $config['database'];
-        } else {
-            ShowError('Database handle not set!');
+        } 
+        else 
+        {
+            showError('sessionTable');
         }
 
         // --------------------------------------------
@@ -475,8 +486,9 @@ class Session
         if (isset($config['cookie_name']))
         {
             // Checks if alpha-numeric
-            if (! ctype_alnum(str_replace(array('-', '_'), '', $config['cookie_name']))) {
-                ShowError('Invalid cookie name!');
+            if (! ctype_alnum(str_replace(array('-', '_'), '', $config['cookie_name']))) 
+            {
+                showError('invalidCookieName');
             }
 
             $this->_cookie_name = $config['cookie_name'];
@@ -488,8 +500,9 @@ class Session
         if (isset($config['table_name']))
         {
             // Checks if alpha-numeric
-            if (! ctype_alnum(str_replace(array('-', '_'), '', $config['table_name']))) {
-                ShowError('Invalid table name!');
+            if (! ctype_alnum(str_replace(array('-', '_'), '', $config['table_name'])))
+            {
+                showError('invalidTableName');
             }
 
             $this->_table_name = $config['table_name'];
@@ -501,13 +514,15 @@ class Session
         if (isset($config['seconds_till_expiration']))
         {
             // Anything else than digits?
-            if (! is_int($config['seconds_till_expiration']) || ! preg_match('#[0-9]#', $config['seconds_till_expiration'])) {
-                ShowError('Seconds till expiration must be a valid number.');
+            if (! is_int($config['seconds_till_expiration']) || ! preg_match('#[0-9]#', $config['seconds_till_expiration']))
+            {
+                showError('invalidExpirationTime');
             }
 
             // Negative number or zero?
-            if ($config['seconds_till_expiration'] < 1) {
-                ShowError('Seconds till expiration can not be zero or less. Enable session expiration when the browser closes instead.');
+            if ($config['seconds_till_expiration'] < 1)
+            {
+                showError('invalidSecondsTime');
             }
 
             $this->_seconds_till_expiration = (int) $config['seconds_till_expiration'];
@@ -519,8 +534,9 @@ class Session
         if (isset($config['expire_on_close']))
         {
             // Not TRUE or FALSE?
-            if (! is_bool($config['expire_on_close'])) {
-                ShowError('Expire on close must be either TRUE or FALSE.');
+            if (! is_bool($config['expire_on_close'])) 
+            {
+                showError('invalidExpirationOnClose');
             }
 
             $this->_expire_on_close = $config['expire_on_close'];
@@ -532,13 +548,15 @@ class Session
         if (isset($config['renewal_time']))
         {
             // Anything else than digits?
-            if (! is_int($config['renewal_time']) || ! preg_match('#[0-9]#', $config['renewal_time'])) {
-                ShowError('Session renewal time must be a valid number.');
+            if (! is_int($config['renewal_time']) || ! preg_match('#[0-9]#', $config['renewal_time']))
+            {
+                showError('invalidSessionRenewalTimeNumber');
             }
 
             // Negative number or zero?
-            if ($config['renewal_time'] < 1) {
-                ShowError('Session renewal time can not be zero or less.');
+            if ($config['renewal_time'] < 1) 
+            {
+                showError('invalidSessionRenewalTime');
             }
 
             $this->_renewal_time = (int) $config['renewal_time'];
@@ -550,13 +568,15 @@ class Session
         if (isset($config['check_ip_address']))
         {
             // Not a string?
-            if (! is_string($config['check_ip_address'])) {
-                ShowError('The IP address must be a string similar to this: \'172.16.254.1\'.');
+            if (! is_string($config['check_ip_address'])) 
+            {
+                showError('invalidIPAddressFormat');
             }
 
             // Invalid IP?
-            if (! preg_match('/^(([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]).){3}([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/', $config['check_ip_address'])) {
-                ShowError('Invalid IP address.');
+            if (! preg_match('/^(([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]).){3}([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/', $config['check_ip_address'])) 
+            {
+                showError('invalidIPAddress');
             }
 
             $this->_ip_address = $config['check_ip_address'];
@@ -565,7 +585,8 @@ class Session
         // --------------------------------------------
 
         // Check user agent?
-        if (isset($config['check_user_agent'])) {
+        if (isset($config['check_user_agent'])) 
+        {
             $this->_user_agent = substr($config['check_user_agent'], 0, 999);
         }
 
@@ -574,8 +595,9 @@ class Session
         // Send cookie only when HTTPS is enabled?
         if (isset($config['secure_cookie']))
         {
-            if (! is_bool($config['secure_cookie'])) {
-                ShowError('The secure cookie option must be either TRUE or FALSE.');
+            if (! is_bool($config['secure_cookie'])) 
+            {
+                showError('invalidSecureCookie');
             }
 
             $this->_secure_cookie = $config['secure_cookie'];

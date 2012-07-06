@@ -6,11 +6,12 @@
 /****     Started on: 25-04-2012   ****/
 /**************************************/
 
-namespace System\SuperSmash;
+namespace system\SuperSmash;
 
 if (!defined("SUPERSMASH_FRAMEWORK")){die("You cannot access this page directly!");}
 
-class Input {
+class Input
+{
     
     // This variable will hold the cookie expiration time
     protected $time;
@@ -40,13 +41,14 @@ class Input {
 
     // This variable will hold an array with the Blacklisting of tags and attributes
     protected $tagBlackList = array('applet', 'body', 'bgsound', 
-        'base', 'basefont', 'embed', 'frame', 'frameset', 'head', 'html', 'id', 'iframe', 
-        'ilayer', 'layer', 'link', 'meta', 'name', 'object', 'script', 'style', 'title', 'xml'
-    );
+                                        'base', 'basefont', 'embed', 'frame', 'frameset', 'head', 'html', 'id', 'iframe', 
+                                        'ilayer', 'layer', 'link', 'meta', 'name', 'object', 'script', 'style', 'title', 'xml'
+                                    );
     protected $attributesBlackList = array('action', 'background', 'codebase', 'dynsrc', 'lowsrc');
 
     // Create the constructor
-    public function __construct() {
+    public function __construct() 
+    {
         // Set the cookie defaults
         $this->time = ( time() + (60 * 60 * 24 * 365) );        // Default: 1 year
         $this->cookiePath =  "/";
@@ -54,9 +56,12 @@ class Input {
     }
 
     // This function will return the post variable
-    public function post($var, $xss = false) {
-        if(isset($_POST[$var])) {
-            if(!$xss) {
+    public function post($var, $xss = false)
+    {
+        if(isset($_POST[$var])) 
+        {
+            if(!$xss) 
+            {
                 return $_POST[$var];
             }
             return $this->clean($_POST[$var]);
@@ -65,9 +70,12 @@ class Input {
     }
     
     // This function will return the get variable
-    public function get($var, $xss = false) {
-        if(isset($_GET[$var])){
-            if(!$xss) {
+    public function get($var, $xss = false)
+    {
+        if(isset($_GET[$var]))
+        {
+            if(!$xss) 
+            {
                 return $this->cleanElement($_GET[$var]);
             }
             return $this->cleanElement($this->clean($_GET[$var]));
@@ -75,7 +83,8 @@ class Input {
         return false;
     }
 
-    public function cleanElement($variable) { 
+    public function cleanElement($variable) 
+    { 
         if(!is_array($variable))
             $variable = htmlentities($variable,ENT_QUOTES,"UTF-8"); 
         else 
@@ -85,47 +94,58 @@ class Input {
     } 
 
     // This function will return the cookie variable
-    public function cookie($name, $xss = false) {
-        if (\System\SuperSmash\Cookie::exists($name)){
+    public function cookie($name, $xss = false) 
+    {
+        if (\system\SuperSmash\Cookie::exists($name)){
             if(!$xss) {
-                return \System\SuperSmash\Cookie::get($name);
+                return \system\SuperSmash\Cookie::get($name);
             }
-            return $this->clean(\System\SuperSmash\Cookie::get($name));
+            return $this->clean(\system\SuperSmash\Cookie::get($name));
         }
         return false;
     }
 
     // This function will set the cookie variable
-    function setCookie($cookieName, $cookieValue, $cookieTime = null) {
-        if($cookieTime === null) {
+    function setCookie($cookieName, $cookieValue, $cookieTime = null) 
+    {
+        if($cookieTime === null) 
+        {
             $cookieTime = $this->time;
         }
-        \System\SuperSmash\Cookie::set($cookieName, $cookieValue, false, $cookieTime,$this->cookiePath);
+        \system\SuperSmash\Cookie::set($cookieName, $cookieValue, false, $cookieTime,$this->cookiePath);
     }
 
     // This function will return the user agent of the user
-    public function userAgent() {
-        if(!$this->userAgent) {
+    public function userAgent() 
+    {
+        if(!$this->userAgent) 
+        {
             $this->userAgent = (isset($_SERVER['HTTP_userAgent']) ? $_SERVER['HTTP_userAgent'] : false);
         }
         return $this->userAgent;
     }
 
     // This function will return the ipAddress of the user
-    public function ipAddress() {
+    public function ipAddress() 
+    {
         
         // Return it if we already determined the IP
-        if(!$this->ipAddress) {       
+        if(!$this->ipAddress) 
+        {       
             
             // Check to see if the server has the IP address
-            if(isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] != '') {
+            if(isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] != '') 
+            {
                 $this->ipAddress = $_SERVER['REMOTE_ADDR'];
-            } elseif(isset($_SERVER['HTTP_CLIENT_IP']) && $_SERVER['HTTP_CLIENT_IP'] != '') {
+            }
+            elseif(isset($_SERVER['HTTP_CLIENT_IP']) && $_SERVER['HTTP_CLIENT_IP'] != '') 
+            {
                 $this->ipAddress = $_SERVER['HTTP_CLIENT_IP'];
             }
 
             // If we still have a false IP address, then set to 0's
-            if (!$this->ipAddress) {
+            if (!$this->ipAddress) 
+            {
                 $this->ipAddress = '0.0.0.0';
             }
         }
@@ -140,12 +160,14 @@ class Input {
         $countAttributes = count($attributesArray);
         
         // Loop through and lowercase all Tags
-        for($i = 0; $i < $countTags; $i++) {
+        for($i = 0; $i < $countTags; $i++) 
+        {
             $tagsArray[$i] = strtolower($tagsArray[$i]);
         }
         
         // Loop through and lowercase all attributes
-        for($i = 0; $i < $countAttributes; $i++) {
+        for($i = 0; $i < $countAttributes; $i++) 
+        {
             $attributesArray[$i] = strtolower($attributesArray[$i]);
         }
         
@@ -158,18 +180,24 @@ class Input {
     }
 
     // This function will clean the given input
-    public function clean($source) {
+    public function clean($source) 
+    {
         
         // If in array, clean each value
-        if(is_array($source)) {
-            foreach($source as $key => $value) {
-                if(is_string($value)){
+        if(is_array($source))
+        {
+            foreach($source as $key => $value) 
+            {
+                if(is_string($value))
+                {
                     // filter element for XSS and other 'bad' code etc.
                     $source[$key] = $this->remove($this->decode($value));
                 }
             }
             return $source;
-        } elseif(is_string($source)) {
+        } 
+        elseif(is_string($source)) 
+        {
             // filter element for XSS and other 'bad' code etc.
             return $this->remove($this->decode($source));
         } 
@@ -180,7 +208,8 @@ class Input {
     protected function remove($source) 
     {
         $loopCounter = 0;
-        while($source != $this->filterTags($source)) {
+        while($source != $this->filterTags($source))
+        {
             $source = $this->filterTags($source);
             $loopCounter++;
         }
@@ -197,19 +226,22 @@ class Input {
         $tagOpen_start = strpos($source, '<');
         
         // interate through string until no tags left
-        while($tagOpen_start !== false) {
+        while($tagOpen_start !== false) 
+        {
             // process tag interatively
             $preTag .= substr($postTag, 0, $tagOpen_start);
             $postTag = substr($postTag, $tagOpen_start);
             $fromTagOpen = substr($postTag, 1);
             $tagOpen_end = strpos($fromTagOpen, '>');
-            if($tagOpen_end === false) {
+            if($tagOpen_end === false)
+            {
                 break;
             }
             
             // next start of tag (for nested tag assessment)
             $tagOpen_nested = strpos($fromTagOpen, '<');
-            if(($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end)) {
+            if(($tagOpen_nested !== false) && ($tagOpen_nested < $tagOpen_end))
+            {
                 $preTag .= substr($postTag, 0, ($tagOpen_nested + 1));
                 $postTag = substr($postTag, ($tagOpen_nested + 1));
                 $tagOpen_start = strpos($postTag, '<');
@@ -220,7 +252,8 @@ class Input {
             $currentTag = substr($fromTagOpen, 0, $tagOpen_end);
             $tagLength = strlen($currentTag);
             
-            if(!$tagOpen_end) {
+            if(!$tagOpen_end) 
+            {
                 $preTag .= $postTag;
                 $tagOpen_start = strpos($postTag, '<');			
             }
@@ -231,18 +264,22 @@ class Input {
             $currentSpace = strpos($tagLeft, ' ');
             
             // is end tag
-            if(substr($currentTag, 0, 1) == "/") {
+            if(substr($currentTag, 0, 1) == "/")
+            {
                 $isCloseTag = true;
                 list($tagName) = explode(' ', $currentTag);
                 $tagName = substr($tagName, 1);
-            } else {
+            } 
+            else 
+            {
                 $isCloseTag = false;
                 list($tagName) = explode(' ', $currentTag);
             }	
 
             // excludes all "non-regular" tagnames OR no tagname OR remove if xssauto is on and tag is blacklisted
             if((!preg_match("/^[a-z][a-z0-9]*$/i", $tagName)) || (!$tagName) || ((in_array(strtolower($tagName),
-                $this->tagBlackList)) && ($this->xssAuto))) { 
+                $this->tagBlackList)) && ($this->xssAuto)))
+            { 
 
                 $postTag = substr($postTag, ($tagLength + 2));
                 $tagOpen_start = strpos($postTag, '<');
@@ -250,25 +287,33 @@ class Input {
             }
             
             // this while is needed to support attribute values with spaces in!
-            while($currentSpace !== false) {
+            while($currentSpace !== false)
+            {
                 $fromSpace = substr($tagLeft, ($currentSpace+1));
                 $nextSpace = strpos($fromSpace, ' ');
                 $openQuotes = strpos($fromSpace, '"');
                 $closeQuotes = strpos(substr($fromSpace, ($openQuotes+1)), '"') + $openQuotes + 1;
                 
                 // another equals exists
-                if(strpos($fromSpace, '=') !== false) {
+                if(strpos($fromSpace, '=') !== false)
+                {
                     // opening and closing quotes exists
-                    if(($openQuotes !== false) && (strpos(substr($fromSpace, ($openQuotes+1)), '"') !== false)) {
+                    if(($openQuotes !== false) && (strpos(substr($fromSpace, ($openQuotes+1)), '"') !== false)) 
+                    {
                         $attr = substr($fromSpace, 0, ($closeQuotes+1));
-                    } else  {
+                    } 
+                    else  
+                    {
                         $attr = substr($fromSpace, 0, $nextSpace);
                     }
-                } else {
+                } 
+                else 
+                {
                     $attr = substr($fromSpace, 0, $nextSpace);
                 }
                 
-                if(!$attr) {
+                if(!$attr) 
+                {
                     $attr = $fromSpace;
                 }
                 
@@ -284,22 +329,30 @@ class Input {
             $tagFound = in_array(strtolower($tagName), $this->tagsArray);
 
             // remove this tag on condition			
-            if((!$tagFound && $this->tagsMethod) || ($tagFound && !$this->tagsMethod)) {
+            if((!$tagFound && $this->tagsMethod) || ($tagFound && !$this->tagsMethod)) 
+            {
                 // reconstruct tag with allowed attributes
-                if(!$isCloseTag) {
+                if(!$isCloseTag) 
+                {
                     $attributeSet = $this->filterAttribute($attributeSet);
                     $preTag .= '<' . $tagName;
-                    for($i = 0; $i < count($attributeSet); $i++) {
+                    for($i = 0; $i < count($attributeSet); $i++) 
+                    {
                         $preTag .= ' ' . $attributeSet[$i];
                     }
                     
                     // reformat single tags to XHTML
-                    if(strpos($fromTagOpen, "</" . $tagName)) {
+                    if(strpos($fromTagOpen, "</" . $tagName))
+                    {
                         $preTag .= '>';
-                    } else {
+                    } 
+                    else 
+                    {
                         $preTag .= ' />';
                     }
-                }  else  {
+                } 
+                else  
+                {
                     $preTag .= '</' . $tagName . '>';
                 }
             }
@@ -315,13 +368,16 @@ class Input {
     }
 
     // This function will strip certain tags off attributes
-    protected function filterAttribute($attributeSet) {	
+    protected function filterAttribute($attributeSet) 
+    {	
         $newSet = array();
         
         // process attributes
-        for($i = 0; $i <count($attributeSet); $i++) {
+        for($i = 0; $i <count($attributeSet); $i++) 
+        {
             // skip blank spaces in tag
-            if(!$attributeSet[$i]) {
+            if(!$attributeSet[$i]) 
+            {
                 continue; 
             }
             
@@ -331,12 +387,14 @@ class Input {
             
             // removes all "non-regular" attr names AND also attr blacklisted
             if ((!preg_match("/^[a-z]*$/i", $attrSubSet[0])) || (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), 
-            $this->attributesBlackList)) || (substr($attrSubSet[0], 0, 2) == 'on')))) {
+            $this->attributesBlackList)) || (substr($attrSubSet[0], 0, 2) == 'on')))) 
+            {
                 continue;
             }
             
             // xss attr value filtering
-            if($attrSubSet[1]) {
+            if($attrSubSet[1]) 
+            {
                 // strips unicode, hex, etc
                 $attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
                 
@@ -347,7 +405,8 @@ class Input {
                 $attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
                 
                 // [requested feature] convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr value)
-                if ((substr($attrSubSet[1], 0, 1) == "'") && (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'")) {
+                if ((substr($attrSubSet[1], 0, 1) == "'") && (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'")) 
+                {
                     $attrSubSet[1] = substr($attrSubSet[1], 1, (strlen($attrSubSet[1]) - 2));
                 }
                 
@@ -368,19 +427,23 @@ class Input {
             $attrFound = in_array(strtolower($attrSubSet[0]), $this->attributesArray);
             
             // keep this attr on condition
-            if((!$attrFound && $this->attributesMethod) || ($attrFound && !$this->attributesMethod)){
+            if((!$attrFound && $this->attributesMethod) || ($attrFound && !$this->attributesMethod))
+            {
                 // attr has value
-                if($attrSubSet[1]) {
+                if($attrSubSet[1]) 
+                {
                     $newSet[] = $attrSubSet[0] . '="' . $attrSubSet[1] . '"';
                 }
                 
                 // attr has decimal zero as value
-                elseif($attrSubSet[1] == "0") {
+                elseif($attrSubSet[1] == "0") 
+                {
                     $newSet[] = $attrSubSet[0] . '="0"';
                 }            
                 
                 // reformat single attributes to XHTML
-                else {
+                else 
+                {
                     $newSet[] = $attrSubSet[0] . '="' . $attrSubSet[0] . '"';
                 }
             }	
@@ -389,7 +452,8 @@ class Input {
     }
 
     // This function will decode the source to a clean string
-    protected function decode($source) {
+    protected function decode($source) 
+    {
         $source = html_entity_decode($source, ENT_QUOTES, "ISO-8859-1");
         $source = preg_replace('/&#(\d+);/me',"chr(\\1)", $source);
         $source = preg_replace('/&#x([a-f0-9]+);/mei',"chr(0x\\1)", $source);

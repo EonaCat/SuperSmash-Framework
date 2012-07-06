@@ -6,7 +6,7 @@
 /****     Started on: 25-04-2012   ****/
 /**************************************/
 
-namespace System\SuperSmash;
+namespace system\SuperSmash;
 use settings\settings;
 
 if (!defined("SUPERSMASH_FRAMEWORK")){die("You cannot access this page directly!");}
@@ -17,45 +17,57 @@ class Configuration {
     protected $data = array();
 
     // Create the constructor
-    public function __construct() {
+    public function __construct() 
+    {
         // Load the default configuration file
          $this->load(settings::getFilePath() . DS . settings::getApp() . DS . 'configuration' . DS . 'configuration.php', 'SuperSmash');  
     }
 
     // This function will get the specified variable from the configuration file
-    public function get($key, $type = 'SuperSmash') {
+    public function get($key, $type = 'SuperSmash')
+    {
         // Check if the variable exists
-        if(isset($this->data[$type][$key])) {
+        if(isset($this->data[$type][$key])) 
+        {
             return $this->data[$type][$key];
         }
         return null;
     }
     
     // This function will return all the variables that where set in the data array
-    public function getAll($type = 'SuperSmash') {       
+    public function getAll($type = 'SuperSmash') 
+    {       
         // Check if the variable exists
-        if(isset($this->data[$type])) {
+        if(isset($this->data[$type])) 
+        {
             return $this->data[$type];
         }
         return null;
     }
 
     // This function will set a variable in the data array    
-    public function set($key, $value = false, $name = 'SuperSmash') {       
+    public function set($key, $value = false, $name = 'SuperSmash') 
+    {       
         // If we have array, loop through and set each
-        if(is_array($item)) {
-            foreach($item as $key => $value) {
+        if(is_array($item)) 
+        {
+            foreach($item as $key => $value) 
+            {
                 $this->data[$name][$key] = $value;
             }
-        } else {
+        } 
+        else 
+        {
             $this->data[$name][$item] = $value;
         }
     }
 
     // This function  will load a specific configuration file and will add its defined variables to the array
-    public function load($file, $name, $array = false) {
+    public function load($file, $name, $array = false) 
+    {
         // Include file and add it to the $files array
-        if(!file_exists($file)){
+        if(!file_exists($file))
+        {
           return;  
         } 
 
@@ -63,9 +75,12 @@ class Configuration {
         $this->files[$name]['filePath'] = $file;
         $this->files[$name]['config_key'] = $array;
                        
-        if($array){
+        if($array)
+        {
           $variables = $variables[$array];  
-        } else {
+        } 
+        else 
+        {
             $variables = get_defined_vars();    
         }
 
@@ -73,9 +88,12 @@ class Configuration {
         unset($variables['file'], $variables['name'], $variables['array']);
         
         // Add the variables to the $data[$name] array
-        if(count($variables) > 0) {
-            foreach( $variables as $key => $value ) {
-                if($key != 'this' && $key != 'data') {
+        if(count($variables) > 0) 
+        {
+            foreach($variables as $key => $value) 
+            {
+                if($key != 'this' && $key != 'data') 
+                {
                     $this->data[$name][$key] = $value;
                 }
             }
@@ -85,14 +103,16 @@ class Configuration {
 
     // This function will save all config variables to the config file, 
     // and makes a backup of the current config file
-    public function save($name) {
+    public function save($name) 
+    {
         // Convert everything to lowercase
         $name = strtolower($name);
         
         // Check to see if we need to put this in an array
         $configKey = $this->files[$name]['config_key'];
         
-        if($configKey != false) {
+        if($configKey != false) 
+        {
             $Old_Data = $this->data[$name];
             $this->data[$name] = array("$configKey" => $this->data[$name]);
         }
@@ -114,22 +134,29 @@ class Configuration {
         ";
 
         // Loop through each var and write it
-        foreach( $this->data[$name] as $key => $value ) {
-            if(is_numeric($value)) {
+        foreach($this->data[$name] as $key => $value) 
+        {
+            if(is_numeric($value)) 
+            {
                 $configurationContent .= "\$$key = " . $value . ";\n";
-            } elseif(is_array($value)) {
+            } 
+            elseif(is_array($value)) 
+            {
                 $val = var_export($value, true);
                 $configurationContent .= "\$$key = " . $value . ";\n";
-              } else {
+            } 
+            else 
+            {
                 $configurationContent .= "\$$key = '" . addslashes( $value ) . "';\n";
-              }
+            }
         }
 
         // Close the php tag
         $configurationContent .= "?>";
         
         // Add the back to non array if we did put it in one
-        if($configKey != false) {
+        if($configKey != false)
+        {
             $this->data[$name] = $Old_Data;
         }
         
@@ -140,7 +167,8 @@ class Configuration {
     }
     
     // This function will revert the last saved configurationFile
-    public function restore($name) {
+    public function restore($name) 
+    {
         // Copy the backup config file nd write the config values to the current config
         return copy($this->files[$name]['filePath'].'bak', $this->files[$name]['filePath']);
     }

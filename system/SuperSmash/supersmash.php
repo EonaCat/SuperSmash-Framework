@@ -6,18 +6,20 @@
 /****     Started on: 25-04-2012   ****/
 /**************************************/
 
-namespace System\SuperSmash;
+namespace system\SuperSmash;
 use settings\settings;
 
 if (!defined("SUPERSMASH_FRAMEWORK")){die("You cannot access this page directly!");}
 
-class SuperSmash {
+class SuperSmash 
+{
     protected $Router;
     protected $dispatch;
     public static $database;
 
     // This function will start the SuperSmash Framework
-    public function start() {
+    public function start() 
+    {
         // initialise the router
         $this->Router = loadClass('Router');
         
@@ -30,9 +32,12 @@ class SuperSmash {
         $queryString  = $GLOBALS['querystring']  = $routes['querystring'];
 
         // Include the application controller
-        if(file_exists(settings::getFilePath() . DS . settings::getApp() . DS . 'controllers' . DS . strtolower($controller) . '.php')) {
+        if(file_exists(settings::getFilePath() . DS . settings::getApp() . DS . 'controllers' . DS . strtolower($controller) . '.php'))
+        {
             require_once (settings::getFilePath() . DS . settings::getApp() . DS . 'controllers' . DS . strtolower($controller) . '.php');
-        } else {
+        }
+        else 
+        {
             show_404();
         }
 
@@ -40,21 +45,25 @@ class SuperSmash {
         $this->dispatch = new $controller();
     
         // Create a database connection object
-        if (configuration('useDatabase')){
-            if (self::$database == null){
+        if (configuration('useDatabase'))
+        {
+            if (self::$database == null)
+            {
                 self::$database = loadClass('Database','SuperSmash',configuration('database'));
                 self::$database = self::$database->open();
             }
        }
 
         // Check if we need to put the session in the database
-        if (configuration('sessionDatabase')) {
+        if (configuration('sessionDatabase')) 
+        {
             $config['database'] = self::$database;
             new Session($config);
         }
 
         // After loading the controller, make sure the method exists, or we have a 404
-        if(method_exists($controller, $action)) {
+        if(method_exists($controller, $action)) 
+        {
             // Call the beforeAction method in the controller.
             $this->performAction($controller, "_beforeAction", $queryString);
             
@@ -63,22 +72,37 @@ class SuperSmash {
             
             // Call the afterAction method in the controller.
             $this->performAction($controller, "_afterAction", $queryString);
-        } else {
+        } 
+        else 
+        {
             // If the method did not exist, then we have a 404
             show_404();
         }
     }
 
     // This function will perform an action on the specified controller
-    protected function performAction($controller, $action, $queryString = null) {
-        if(method_exists($controller, $action)) {
+    protected function performAction($controller, $action, $queryString = null) 
+    {
+        if(method_exists($controller, $action))
+        {
             return call_user_func_array( array($this->dispatch, $action), $queryString );
         }
         return false;
     }
 
-    public static function database(){
+    public static function database()
+    {
         return self::$database;
+    }
+
+    public static function language()
+    {
+        // Load the language
+        $language = loadClass('Language');
+        $language->setLanguage(configuration('language', 'SuperSmash'));
+        $language->load('SuperSmash_errors');
+        $language->load('page_errors');
+        return $language;
     }
 }
 ?>

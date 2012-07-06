@@ -6,9 +6,10 @@
 /****     Started on: 25-04-2012   ****/
 /**************************************/
 
-namespace System\SuperSmash;
+namespace system\SuperSmash;
 
-class Cookie {
+class Cookie 
+{
 
         private static $expire = 0;
         private static $path;
@@ -31,31 +32,39 @@ class Cookie {
             $myurl = str_replace('www.','',$url);
             $domain = parse_url($myurl);
          
-            if(!empty($domain["host"])){
+            if(!empty($domain["host"]))
+            {
                  return $domain["host"];
-            } else {
-                 return $domain["path"];
-                 }
+            } 
+            else 
+            {
+                return $domain["path"];
+            }
         }
 
         // Set the cookie
-        public static function set($name, $value = '', $force = false, $expire = NULL, $path = NULL, $domain = NULL, $secure = false, $httponly = false) {
+        public static function set($name, $value = '', $force = false, $expire = NULL, $path = NULL, $domain = NULL, $secure = false, $httponly = false) 
+        {
                 // Check if the $value is an integer
-                if ($value === true || $value === false) {
+                if ($value === true || $value === false) 
+                {
                         $value = (int) $value;
                 }
 
                 // Set the cookie value
-                if ($value) {
+                if ($value) 
+                {
                         $value = base64_encode(serialize($value));
                         // Check the allowed cookie size
-                        if (strlen($value) > (4 * 1024)){
+                        if (strlen($value) > (4 * 1024))
+                        {
                                 trigger_error( "The cookie {$name} exceeds the specification for the maximum cookie size.  Some data may be lost", E_USER_WARNING );
                         }
                 }
 
                 // Force value into superglobal
-                if ($force) {
+                if ($force) 
+                {
                         $_COOKIE[$name] = $value;
                 }
 
@@ -64,22 +73,27 @@ class Cookie {
         }
 
         // Check if the cookie exists
-        public static function exists($name) {
+        public static function exists($name) 
+        {
                 return isset($_COOKIE[$name]);
         }
 
 
         // Get a cookie value
-        public static function get($name) {
+        public static function get($name) 
+        {
                 return (isset($_COOKIE[$name])) ? unserialize(base64_decode($_COOKIE[$name])) : NULL;
         }
 
         // Remove a cookie
-        public static function remove($name, $force = false) {
+        public static function remove($name, $force = false) 
+        {
                 // Check if the cookie isset
-                if (isset($_COOKIE[$name])) {
+                if (isset($_COOKIE[$name])) 
+                {
                         // Remove from superglobal
-                        if ($force) {
+                        if ($force) 
+                        {
                                 unset($_COOKIE[$name]);
                         }
 

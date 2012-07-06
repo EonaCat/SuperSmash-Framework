@@ -8,46 +8,63 @@
 
 namespace settings;
 
-// Define the directory seperator
-define('DS', DIRECTORY_SEPARATOR);
+// Define the directory seperator	(Check for Linux or Windows)
+$operatingSystem = PHP_OS;
+switch($operatingSystem)
+{
+    case "Linux": define("DS", "/"); break;
+    case "Windows": define("DS", "\\"); break;
+    default: define("DS", "/"); break;
+}
 
 // Define the root path
 define('ROOT', dirname(dirname(dirname(dirname(__FILE__)))));
 
-class settings{
+class settings
+{
 	private static $application;
 	private static $applications = array();
 	private static $filePath;
 	private static $applicationPath;
-		static function getApplicationPath(){
+		static function getApplicationPath()
+		{
 			return self::$applicationPath;
 		}
-		static function getFilePath(){
+		static function getFilePath()
+		{
 			return self::$filePath;
 		}		
-		static function getApps(){
+		static function getApps()
+		{
 			return self::$applications;
 		}		
-		static function getApp(){
+		static function getApp()
+		{
 			return self::$application;
 		}		
-		static function setApps($value){
+		static function setApps($value)
+		{
 			self::$applications = $value;
 		}
-		static function set($value){
-			if ($value == "applicationchooser"){
+		static function set($value)
+		{
+			if ($value == "applicationchooser")
+			{
 				self::$filePath = ROOT . DS . "system" . DS . 'SuperSmash';
-				self::$applicationPath = "/" . "system" . "/" . 'SuperSmash';
-			} else {
+				self::$applicationPath = DS . "system" . DS . 'SuperSmash';
+			} 
+			else 
+			{
 				self::$filePath = ROOT . DS . "applications";
-				self::$applicationPath = "/" . "applications";
+				self::$applicationPath = DS . "applications";
 			}
 
 			self::$application = $value;
 
-			if (!is_dir(self::$filePath . DS . self::$application)){
+			if (!is_dir(self::$filePath . DS . self::$application))
+			{
 				self::$filePath = ROOT . DS . "system" . DS . 'SuperSmash';
-				self::$applicationPath = "/" . "system" . "/" . 'SuperSmash';
+				self::$applicationPath = DS . "system" . DS . 'SuperSmash';
 				self::$application = "applicationchooser";
 			}
 		}		
@@ -71,26 +88,35 @@ $applications = array();
 	}
 
 settings::setApps($applications);
-require_once(dirname(dirname(dirname(__FILE__))) . "\\" . "SuperSmash" . "\\" . "cookie.php");
+require_once(dirname(dirname(dirname(__FILE__))) . DS . "SuperSmash" . DS . "cookie.php");
 
-if (isset($_POST['changepage'])){
+if (isset($_POST['changepage']))
+{
 	ob_start();
-	include dirname(__FILE__) . "\\" . "SuperSmash" . "\\" . "applicationchooser" . "\\" . "configuration" . "\\" . "SuperSmashconfiguration.php";
+	include dirname(__FILE__) . DS . "SuperSmash" . DS . "applicationchooser" . DS . "configuration" . DS . "SuperSmashconfiguration.php";
 	ob_end_clean();
 
-	if ($sessionDatabase){
+	if (isset($sessionDatabase))
+	{
 		$_SESSION['changedPage'] = $_POST['changepage'];
-	} else {
-		\System\SuperSmash\Cookie::set("changedPage", $_POST['changepage'], false, 3600);
+	} 
+	else 
+	{
+		\system\SuperSmash\Cookie::set("changedPage", $_POST['changepage'], false, 3600);
 		header("Location: index.php");
 	}
 } 
 
-if (\System\SuperSmash\Cookie::exists("changedPage")){
-	settings::set(\System\SuperSmash\Cookie::get("changedPage"));	
-} else if (isset($_SESSION['changedPage'])){
+if (\system\SuperSmash\Cookie::exists("changedPage"))
+{
+	settings::set(\system\SuperSmash\Cookie::get("changedPage"));	
+} 
+else if (isset($_SESSION['changedPage']))
+{
 	settings::set($_SESSION['changedPage']);	
-} else if ($applicationChooser){
+} 
+else if ($applicationChooser)
+{
 	settings::set("applicationchooser");
 }
 
@@ -101,7 +127,8 @@ define('SYSTEM', ROOT . DS . 'system');
 define('SUPERSMASH_FRAMEWORK', true);
 
 // Load the default application
-if (!$applicationChooser) {
+if (!$applicationChooser)
+{
 	settings::set($applications[$applicationNumber]);
 }
 

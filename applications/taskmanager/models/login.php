@@ -7,7 +7,7 @@ class LoginModel extends System\SuperSmash\Model {
        parent::__construct();
     }
 
-   public function data($error = false) {
+   public function login($error = false) {
         $array =  array('loginMessage' => 
                         'Use this form to login into the application.'
                         );
@@ -29,8 +29,6 @@ class LoginModel extends System\SuperSmash\Model {
       			// Get the database connection
       			$database = \System\SuperSmash\SuperSmash::database();
 
-            session_start();
-            
             $password = $_POST['password'];
 
             // Check if the username and password are valid
@@ -39,13 +37,6 @@ class LoginModel extends System\SuperSmash\Model {
             $result = $query->fetch();
             $password = md5(sha1($password . $result['salt']));
             $password = $this->encrypt_login($password, $result['salt']);
-            if ($password == $result['password']){
-              $_SESSION["logged_in"] = true;
-              $_SESSION["username"] = $result['username'];
-              return true;
-            } else {
-              return false;
-            }
           return $password == $result['password'];
     		}
     	}
